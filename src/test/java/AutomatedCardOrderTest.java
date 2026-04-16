@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
@@ -20,13 +20,14 @@ public class AutomatedCardOrderTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
 
         driver = new ChromeDriver(options);
+        driver.get("http://localhost:9999");
     }
 
     @AfterEach
@@ -38,14 +39,17 @@ public class AutomatedCardOrderTest {
 
     @Test
     void shouldSubmitRequest() {
-        driver.get("http://localhost:9999");
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Геннадий");
-        elements.get(1).sendKeys("+79220142428");
-        driver.findElement(By.className("checkbox__box")).click();
-        driver.findElement(By.className("button")).click();
-        String text = driver.findElement(By.className("order-success")).getText();
-        assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Геннадий");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79220142827");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
+        driver.findElement(By.cssSelector("('button')")).click();
+        WebElement actualElement = driver.findElement(By.cssSelector("[data-test-id='order-success']"));
+        String actualText = actualElement.getText().trim();
+        assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", actualText);
+
+        //assertTrue(actualElement, isDisplayed());
+
+
     }
 
 
