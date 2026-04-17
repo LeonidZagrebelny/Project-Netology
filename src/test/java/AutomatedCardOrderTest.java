@@ -42,7 +42,7 @@ public class AutomatedCardOrderTest {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Геннадий");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79220142827");
         driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
-        driver.findElement(By.cssSelector("('button')")).click();
+        driver.findElement(By.cssSelector("button")).click();
         WebElement actualElement = driver.findElement(By.cssSelector("[data-test-id='order-success']"));
         String actualText = actualElement.getText().trim();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", actualText);
